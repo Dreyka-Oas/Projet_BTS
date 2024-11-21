@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+    <style>
+        :root {
+            --bg-dark: #1e1e2f;
+            --bg-light: #f8f9fa;
+
+            --container-dark: #292b3b;
+            --container-light: #ffffff;
+
+            --text-dark: #f1f1f5;
+            --text-light: #2c3e50;
+
+            --input-bg-dark: #343a40;
+            --input-bg-light: #f1f3f5;
+
+            --input-border-dark: #4f4f5a;
+            --input-border-light: #d1d1d1;
+
+            --button-bg-dark: #4a90e2;
+            --button-bg-light: #007bff;
+
+            --button-hover-dark: #3b75c2;
+            --button-hover-light: #0056b3;
+
+            --accent-dark: #00b4ff;
+            --accent-light: #0056b3;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+        }
+
+        body.light-theme {
+            background-color: var(--bg-light);
+            color: var(--text-light);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            color: var(--text-dark);
+        }
+
+        body.light-theme .theme-toggle {
+            background: rgba(0, 0, 0, 0.1);
+            color: var(--text-light);
+        }
+
+        .container {
+            position: relative;
+            background-color: var(--container-dark);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 420px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        body.light-theme .container {
+            background-color: var(--container-light);
+            border: 1px solid var(--input-border-light);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+            width: 100%;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        body.light-theme .form-group label {
+            color: var(--text-light);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            margin-top: 0.5rem;
+            border: 1px solid var(--input-border-dark);
+            border-radius: 8px;
+            background-color: var(--input-bg-dark);
+            color: var(--text-dark);
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        body.light-theme .form-group input {
+            border-color: var(--input-border-light);
+            background-color: var(--input-bg-light);
+            color: var(--text-light);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-dark);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-theme .form-group input:focus {
+            border-color: var(--accent-light);
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--button-bg-dark);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        body.light-theme .btn {
+            background-color: var(--button-bg-light);
+        }
+
+        .btn:hover {
+            background-color: var(--button-hover-dark);
+        }
+
+        body.light-theme .btn:hover {
+            background-color: var(--button-hover-light);
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">
+        🌙
+    </button>
+
+    <div class="container" id="loginPage">
+        <h1>Connexion</h1>
+        <form>
+            <div class="form-group">
+                <label for="login">Identifiant</label>
+                <input type="text" id="login" placeholder="Entrez votre identifiant">
+            </div>
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" placeholder="Entrez votre mot de passe">
+            </div>
+            <button type="submit" class="btn">Se connecter</button>
+            <button type="button" class="btn btn-secondary" onclick="showCreateAccount()">Créer un compte</button>
+        </form>
+    </div>
+
+    <div class="container hidden" id="createAccountPage">
+        <h1>Créer un compte</h1>
+        <form>
+            <div class="form-group">
+                <label for="nom">Nom</label>
+                <input type="text" id="nom" placeholder="Entrez votre nom">
+            </div>
+            <div class="form-group">
+                <label for="prenom">Prénom</label>
+                <input type="text" id="prenom" placeholder="Entrez votre prénom">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Entrez votre email">
+            </div>
+            <div class="form-group">
+                <label for="newPassword">Mot de passe</label>
+                <input type="password" id="newPassword" placeholder="Créez votre mot de passe">
+            </div>
+            <button type="submit" class="btn">Créer le compte</button>
+            <button type="button" class="btn btn-secondary" onclick="showLogin()">Retour à la connexion</button>
+        </form>
+    </div>
+
+    <script>
+        function showCreateAccount() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('createAccountPage').classList.remove('hidden');
+        }
+
+        function showLogin() {
+            document.getElementById('createAccountPage').classList.add('hidden');
+            document.getElementById('loginPage').classList.remove('hidden');
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+        }
+    </script>
+</body>
+</html>
