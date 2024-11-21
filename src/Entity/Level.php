@@ -16,6 +16,9 @@ class Level
     #[ORM\Column(length: 100)]
     private ?string $label = null;
 
+    #[ORM\OneToMany(mappedBy: 'level', targetEntity: Define::class)]
+    private $define;
+
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 

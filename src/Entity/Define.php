@@ -19,6 +19,14 @@ class Define
     #[ORM\Column]
     private ?float $price = null;
 
+    #[ORM\ManyToOne(targetEntity: Level::class, inversedBy: 'definitions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Level $level = null;
+
+    #[ORM\OneToOne(targetEntity: Activity::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Activity $activity = null;
+
     public function getId(): ?int
     {
         return $this->id;

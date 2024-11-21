@@ -19,6 +19,9 @@ class Activity
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
+    #[ORM\OneToOne(mappedBy: 'activity', targetEntity: Define::class)]
+    private ?Define $definition = null;
+
     public function getId(): ?int
     {
         return $this->id;
