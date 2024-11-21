@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use App\Repository\UsersRepository;
 use Doctrine\ORM\Mapping as ORM;
+#[ORM\InheritanceType("SINGLE_TABLE")]
+#[ORM\DiscriminatorColumn(name: "discr", type: "string")]
+#[ORM\DiscriminatorMap(['admin' => Administrator::class, 'member' => Member::class, 'trainer' => Trainer::class])]
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
 class Users
