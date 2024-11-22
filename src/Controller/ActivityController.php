@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/activity')]
 final class ActivityController extends AbstractController
@@ -71,7 +71,7 @@ final class ActivityController extends AbstractController
     #[Route('/{id}', name: 'app_activity_delete', methods: ['POST'])]
     public function delete(Request $request, Activity $activity, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$activity->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$activity->getId(), $request->request->get('_token'))) {
             $entityManager->remove($activity);
             $entityManager->flush();
         }

@@ -4,12 +4,16 @@ namespace App\Entity;
 
 use App\Repository\UsersRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 #[ORM\InheritanceType("SINGLE_TABLE")]
 #[ORM\DiscriminatorColumn(name: "discr", type: "string")]
 #[ORM\DiscriminatorMap(['admin' => Administrator::class, 'member' => Member::class, 'trainer' => Trainer::class])]
-
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
-class Users
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,30 +21,29 @@ class Users
     private ?int $id = null;
 
     #[ORM\Column(length: 30)]
-    private ?string $name = null;
+    private ?string $name = "";
 
     #[ORM\Column(length: 30)]
-    private ?string $last_name = null;
+    private ?string $last_name = "";
 
-    #[ORM\Column(length: 100)]
-    private ?string $email = null;
+    #[ORM\Column(length: 100, unique: true)]
+    private ?string $email = "";
 
-    #[ORM\Column(length: 15)]
-    private ?string $login = null;
+    #[ORM\Column(length: 50, unique: true)]
+    private ?string $login = "";
 
-    #[ORM\Column(length: 15)]
-    private ?string $mdp = null;
+    #[ORM\Column(length: 1000)]
+    private ?string $mdp = "";
+
+    #[ORM\Column(type: 'json')]
+    private array $roles = [];
+
+    #[ORM\Column]
+    private bool $isVerified = false;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId(int $id): static
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     public function getName(): ?string
@@ -51,7 +54,6 @@ class Users
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -63,7 +65,6 @@ class Users
     public function setLastName(string $last_name): static
     {
         $this->last_name = $last_name;
-
         return $this;
     }
 
@@ -75,7 +76,6 @@ class Users
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -87,7 +87,6 @@ class Users
     public function setLogin(string $login): static
     {
         $this->login = $login;
-
         return $this;
     }
 
@@ -99,6 +98,51 @@ class Users
     public function setMdp(string $mdp): static
     {
         $this->mdp = $mdp;
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->mdp;
+    }
+
+    public function setPassword(string $password): static
+    {
+        $this->mdp = $password;
+        return $this;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->login;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // Si des informations sensibles sont stockées temporairement, nettoyez-les ici.
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }
